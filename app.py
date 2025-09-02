@@ -7,9 +7,9 @@ from nltk.stem.porter import PorterStemmer
 
 ps = PorterStemmer()
 import nltk
-nltk.download('punkt', download_dir="./nltk_data",force=True)
-nltk.data.path.append("./nltk_data")
-
+nltk.download('punkt')
+nltk.download('punkt_tab')
+nltk.download('stopwords')
 st.title("Email/SMS Spam Classifier")
 
 def transform_text(text):
@@ -43,11 +43,9 @@ input_sms = st.text_area("Enter the message")
 if st.button('Predict'):
 
     # 1. preprocess
-    transformed_sms = transform_text(input_sms)
-    # 2. vectorize
-    vector_input = tfidf.transform([transformed_sms])
-    # 3. predict
+    vector_input = tfidf.transform([input_sms])
     result = model.predict(vector_input)[0]
+    st.write("Prediction:", result)
     # 4. Display
     if result == 1:
         st.header("Spam")
